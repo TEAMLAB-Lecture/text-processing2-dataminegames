@@ -2,6 +2,8 @@
 # Test Processing II  #
 #######################
 
+import re
+
 
 def digits_to_words(input_string):
     """
@@ -28,7 +30,10 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    pairs = dict(zip('0123456789', ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']))
+    num = " ".join(re.findall('[0-9]', input_string))
+    transable = num.maketrans(pairs)
+    digit_string = num.translate(transable)
     return digit_string
 
 
@@ -64,5 +69,10 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
-    return camelcase_str
+    if '_' not in underscore_str:
+        return underscore_str
+
+    else:
+        bighead = "".join(map(lambda x: x.capitalize(), re.sub('_+', ' ', underscore_str).split()))
+        camelcase_str = '' if not bighead else bighead[0].lower() + bighead[1:]
+        return camelcase_str
